@@ -1,20 +1,6 @@
-__all__ = [
-    "DATE_FORMAT",
-    # "formatwarning",
-    "METADATA",
-    "MPL_RUNTIME_CONFIG",
-    "S3_URL_LIFESPAN",
-    "SCALE_MIN",
-    "SCALE_MAX",
-    "STATUS_OK",
-    "STATUS_NOK"
-]
-
-# standard library
 from collections import namedtuple
 from typing import Any
 
-# 3rd party libraries
 from fastapi import status
 
 
@@ -35,14 +21,14 @@ Metadata = namedtuple("Metadata", ["ge", "le"])
 
 METADATA: dict[str, Metadata] = {
     "periods": Metadata(ge=1,      le=60),
-    "amount":  Metadata(ge=10_000, le=3_000_000),
-    "rate":    Metadata(ge=1,      le=8)
+    "amount" : Metadata(ge=10_000, le=3_000_000),
+    "rate"   : Metadata(ge=1,      le=8)
 }
 
-# matplotlib runtime configuration
+# matplotlib settings
 MPL_RUNTIME_CONFIG: dict[str, Any] = {
     "axes.titlepad": 15,
-    "figure.dpi": 120
+    "figure.dpi"   : 300
 }
 
 # lifespan of a link to a deposit balance progress chart, seconds
@@ -53,7 +39,6 @@ S3_URL_LIFESPAN: int = 180
 SCALE_MIN: float = 0.5
 SCALE_MAX: float = 1.2
 
-# HTTP status codes
 # app is healthy and works well
 STATUS_OK: int = status.HTTP_200_OK
 

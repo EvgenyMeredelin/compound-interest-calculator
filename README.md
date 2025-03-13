@@ -76,28 +76,29 @@ Floor-стратегия обработки центов реализована 
 ```
 $ pytest --cov-report term-missing --cov-report html:htmlcov --cov=.
 ================================== test session starts ==================================
-platform win32 -- Python 3.12.7, pytest-8.3.4, pluggy-1.5.0
+platform win32 -- Python 3.12.7, pytest-8.3.5, pluggy-1.5.0
 rootdir: D:\git\compound-interest-calculator
 configfile: pytest.ini
-plugins: anyio-4.7.0, cov-6.0.0
+plugins: anyio-4.8.0, cov-6.0.0
 collected 24 items
 
-app\test_main.py ........................                                          [100%]
+test_main.py ........................                                              [100%]
 
 ---------- coverage: platform win32, python 3.12.7-final-0 -----------
-Name               Stmts   Miss  Cover   Missing
-------------------------------------------------
-app\__init__.py        0      0   100%
-app\handlers.py       39      2    95%   39, 96
-app\main.py          110      0   100%
-app\settings.py       13      0   100%
-app\test_main.py     151      0   100%
-------------------------------------------------
-TOTAL                313      2    99%
+Name           Stmts   Miss  Cover   Missing
+--------------------------------------------
+__init__.py        0      0   100%
+handlers.py       32      1    97%   63
+main.py           68      0   100%
+settings.py       12      0   100%
+test_main.py     151      0   100%
+tools.py          50      1    98%   53
+--------------------------------------------
+TOTAL            313      2    99%
 Coverage HTML written to dir htmlcov
 
 
-================================== 24 passed in 20.35s ==================================
+================================== 24 passed in 14.00s ==================================
 ```
 
 Перечень юнит-тестов из `test_main.py`:

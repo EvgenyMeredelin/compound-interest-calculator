@@ -1,52 +1,21 @@
-# standard library
 import json
 import os
-import uuid
-from io import BytesIO
 from typing import Annotated
 
-# 3rd party libraries
-import boto3
-
-# select Anti-Grain Geometry backend to prevent "UserWarning:
-# Starting a Matplotlib GUI outside of the main thread will likely fail."
-# https://matplotlib.org/stable/users/explain/figure/backends.html#backends
-import matplotlib
-matplotlib.use("agg")
-
-import matplotlib.pyplot as plt
-import mplcyberpunk
-plt.style.use("cyberpunk")
-
 from dateutil.relativedelta import relativedelta
-
-# from dotenv import load_dotenv
-# load_dotenv()
-
-from fastapi import (
-    FastAPI,
-    Request
-)
+from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
-from pydantic import (
-    AfterValidator,
-    BaseModel,
-    Field
-)
+from pydantic import AfterValidator, BaseModel, Field
 from starlette.responses import RedirectResponse
 
-# user modules
-from .handlers import *
-from .settings import (
-    METADATA as M,
-    MPL_RUNTIME_CONFIG,
-    S3_URL_LIFESPAN,
-    STATUS_OK,
-    STATUS_NOK
+from .handlers import (
+    AmountHandler, BypassAmountHandler, FloorAmountHandler,
+    DateTime
 )
-plt.rcParams.update(MPL_RUNTIME_CONFIG)
+from .settings import METADATA as M, STATUS_OK, STATUS_NOK
+from .tools import Plotter
 
 
 app = FastAPI()
@@ -124,7 +93,7 @@ def custom_openapi():
         del openapi_schema["components"]["schemas"][error]
 
     app.openapi_schema = openapi_schema
-    return app.openapi_schema
+    return openapi_schema
 
 
 app.openapi = custom_openapi
@@ -204,84 +173,13 @@ class CompoundInterestCalculator(BaseModel):
             amount = amount_handler.handle(next_date, amount)
             monthly_schedule[str(next_date)] = round(amount, 2)
 
-        image_buffer = self.__class__.plot_chart(monthly_schedule)
-        url = self.__class__.upload_chart_and_get_link(image_buffer)
-        image_buffer.close()
+        url = Plotter(monthly_schedule).upload_chart()
         return {"data": monthly_schedule, "chart": url}
-
-    @staticmethod
-    def plot_chart(schedule: dict[str, float]) -> BytesIO:
-        """
-        Plot deposit balance progress chart for provided interest schedule.
-        """
-        # stretch chart depending on data
-        data_size = len(schedule)
-        fig, ax = plt.subplots(figsize=(data_size, 6))
-
-        # plot bars and add amount labels
-        dates, amounts = map(list, (schedule, schedule.values()))
-        bars = plt.bar(dates, amounts, color="C3")
-        mplcyberpunk.add_bar_gradient(bars=bars)
-        label_size = 9 if amounts[0] < 100_000 else 8
-        ax.bar_label(ax.containers[0], fmt="%.2f", size=label_size)
-
-        # add xticks and title
-        plt.xticks(rotation=90, ha="center")
-        ax.tick_params(axis="x", pad=-55)
-        ax.set_axisbelow(True)
-        title_size = clamp(data_size * 3, low=15, high=72, warn=False)
-        plt.title("Deposit balance progress", size=title_size)
-
-        # save chart to bytes buffer
-        image_buffer = BytesIO()
-        plt.savefig(image_buffer, bbox_inches="tight", format="png")
-        plt.close(fig)
-        return image_buffer
-
-    @staticmethod
-    def upload_chart_and_get_link(image_buffer: BytesIO) -> str:
-        """
-        Upload deposit balance progress chart to S3 bucket and generate
-        a presigned direct link.
-        """
-        image_buffer.seek(0)
-        chart_name = f"{uuid.uuid4()}.png"  # generate unique chart name
-        bucket = os.environ["S3_BUCKET_NAME"]
-        tenant_id = os.environ["S3_TENANT_ID"]
-        key_id = os.environ["S3_KEY_ID"]
-
-        # run boto3 session
-        session = boto3.session.Session(
-            aws_access_key_id=f"{tenant_id}:{key_id}",
-            aws_secret_access_key=os.environ["S3_KEY_SECRET"],
-            region_name=os.environ["S3_REGION_NAME"]
-        )
-        # get S3 client
-        client = session.client(
-            service_name="s3",
-            endpoint_url=os.environ["S3_ENDPOINT_URL"]
-        )
-        # upload chart to bucket
-        client.put_object(
-            Bucket=bucket,
-            Key=chart_name,
-            ContentType="image/png",
-            Body=image_buffer
-        )
-        # generate link to chart
-        url = client.generate_presigned_url(
-            ClientMethod="get_object",
-            Params={"Bucket": bucket, "Key": chart_name},
-            ExpiresIn=S3_URL_LIFESPAN  # seconds
-        )
-        return url
 
 
 @app.get("/", status_code=STATUS_OK)
 async def redirect_from_root_to_docs():
-    """
-    Redirect from root to FastAPI Swagger docs.
-    """
+    """Redirect from root to FastAPI Swagger docs. """
     return RedirectResponse(url="/docs")
 
 
@@ -289,9 +187,7 @@ async def redirect_from_root_to_docs():
 async def standard_interest_scenario(
     calculator: CompoundInterestCalculator
 ):
-    """
-    Standard scenario of interest accumulation.
-    """
+    """Standard scenario of interest accumulation. """
     return calculator.calculate_interest()
 
 

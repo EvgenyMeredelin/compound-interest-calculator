@@ -1,23 +1,17 @@
-# standard library
-import os
 from functools import wraps
 from typing import Callable
 
-# 3rd party libraries
 import requests
+from decouple import config
+
 # https://fastapi.tiangolo.com/tutorial/testing/#testing
 from fastapi.testclient import TestClient
 
-# user modules
-from .main import (
-    app,
-    custom_openapi
-)
+from .main import app, custom_openapi
 from .settings import (
     DATE_FORMAT,
     METADATA as M,
-    STATUS_OK,
-    STATUS_NOK
+    STATUS_OK, STATUS_NOK
 )
 
 
@@ -55,9 +49,7 @@ client = TestClient(app)
 
 
 def assert_ok(test: Callable) -> Callable:
-    """
-    Assertions that app is healthy and works well.
-    """
+    """Assertions that app is healthy and works well. """
     @wraps(test)
     def wrapper(*args, **kwargs) -> None:
         response, expected_data = test(*args, **kwargs)
@@ -75,7 +67,7 @@ def assert_ok(test: Callable) -> Callable:
 
         # check if the chart hosted on the S3_ENDPOINT_URL
         chart_url = response_dict["chart"]
-        assert chart_url.startswith(os.environ["S3_ENDPOINT_URL"])
+        assert chart_url.startswith(config("S3_ENDPOINT_URL"))
 
         # check if the chart url is responsive and contains a png image
         chart_response = requests.get(chart_url)
@@ -85,9 +77,7 @@ def assert_ok(test: Callable) -> Callable:
 
 
 def assert_nok(test: Callable) -> Callable:
-    """
-    Assertions that app fails due to invalid input data.
-    """
+    """Assertions that app fails due to invalid input data. """
     @wraps(test)
     def wrapper(*args, **kwargs) -> None:
         response, expected_data = test(*args, **kwargs)

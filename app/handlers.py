@@ -1,43 +1,12 @@
-__all__ = [
-    "AmountHandler",
-    "BypassAmountHandler",
-    "FloorAmountHandler",
-    "DateTime",
-    "clamp"
-]
-
-# standard library
 import datetime
-import warnings
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 from typing import Self
 
-# user modules
 from .settings import (
     DATE_FORMAT,
-    # formatwarning,
-    SCALE_MIN,
-    SCALE_MAX
+    SCALE_MIN, SCALE_MAX
 )
-
-
-numeric = int | float
-# warnings.formatwarning = formatwarning
-
-
-def clamp(
-    value: numeric, *, low: numeric, high: numeric, warn: bool = True
-) -> numeric:
-    """
-    Clamp `value` to fit inclusive range [`low`, `high`].
-    """
-    clamped_value = max(low, min(value, high))
-    if warn and clamped_value in (low, high):
-        warnings.warn(f"Ding-dong! {value} was clamped to {clamped_value}")
-    return clamped_value
+from .tools import clamp
 
 
 class DateTime(datetime.datetime):
@@ -90,25 +59,19 @@ class AmountHandler(ABC):
     @staticmethod
     @abstractmethod
     def handle_cents(amount: float) -> float:
-        """
-        Define a logic to handle cents.
-        """
+        """Define a logic to handle cents. """
         raise NotImplementedError
 
 
 class BypassAmountHandler(AmountHandler):
     @staticmethod
     def handle_cents(amount: float) -> float:
-        """
-        Return `amount` as-is, with no processing applied.
-        """
+        """Return `amount` as-is, with no processing applied. """
         return amount
 
 
 class FloorAmountHandler(AmountHandler):
     @staticmethod
     def handle_cents(amount: float) -> float:
-        """
-        Floor `amount` to a full cent, e.g. 0.(9) -> 0.99.
-        """
+        """Floor `amount` to a full cent, e.g. 0.(9) -> 0.99. """
         return int(amount * 100) / 100
