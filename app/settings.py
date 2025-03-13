@@ -40,7 +40,7 @@ SCALE_MIN: float = 0.5
 SCALE_MAX: float = 1.2
 
 # app is healthy and works well
-STATUS_OK: int = status.HTTP_200_OK
+STATUS_OK : int = status.HTTP_200_OK
 
 # app fails due to invalid input data
 STATUS_NOK: int = status.HTTP_400_BAD_REQUEST

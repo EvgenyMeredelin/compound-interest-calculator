@@ -14,7 +14,6 @@ from .settings import (
     # formatwarning
 )
 
-
 # select Anti-Grain Geometry backend to prevent "UserWarning:
 # Starting a Matplotlib GUI outside of the main thread will likely fail."
 # https://matplotlib.org/stable/users/explain/figure/backends.html#backends
@@ -22,6 +21,7 @@ matplotlib.use("agg")
 
 plt.rcParams.update(MPL_RUNTIME_CONFIG)
 plt.style.use("cyberpunk")
+
 
 bucket_name = config("S3_BUCKET_NAME")
 tenant_id   = config("S3_TENANT_ID")
@@ -32,7 +32,6 @@ session = boto3.session.Session(
     aws_secret_access_key=config("S3_KEY_SECRET"),
     region_name=config("S3_REGION_NAME")
 )
-
 client = session.client(
     service_name="s3",
     endpoint_url=config("S3_ENDPOINT_URL")
@@ -45,9 +44,7 @@ numeric = int | float
 def clamp(
     value: numeric, *, low: numeric, high: numeric, warn: bool = True
 ) -> numeric:
-    """
-    Clamp `value` to fit inclusive range [`low`, `high`].
-    """
+    """Clamp `value` to fit inclusive range [`low`, `high`]. """
     clamped_value = max(low, min(value, high))
     if warn and clamped_value in (low, high):
         warnings.warn(f"Ding-dong! {value} was clamped to {clamped_value}")
@@ -56,7 +53,7 @@ def clamp(
 
 class Plotter:
     """
-    Deposit balance progress chart plotter.
+    Helper class to plot deposit balance progress chart and upload it to S3.
     """
 
     def __init__(self, schedule: dict[str, float]) -> None:
@@ -65,9 +62,7 @@ class Plotter:
         self._plot_chart()
 
     def _plot_chart(self) -> None:
-        """
-        Plot deposit balance progress chart for provided interest schedule.
-        """
+        """Plot chart for provided interest schedule and save it as bytes. """
         # stretch chart depending on data
         data_size = len(self.schedule)
         fig, ax = plt.subplots(figsize=(data_size, 6))
@@ -92,12 +87,12 @@ class Plotter:
         plt.close(fig)
 
     def upload_chart(self) -> str:
-        """Upload chart to S3 bucket and return a download link. """
+        """Upload chart to S3 and return a limited time download link. """
         filename = str(uuid.uuid4()) + ".png"
         params = {
-            "Bucket": "compound-interest-calculator",
-            "Key": filename,
-            "Body": self.body,
+            "Bucket"     : "compound-interest-calculator",
+            "Key"        : filename,
+            "Body"       : self.body,
             "ContentType": "image/png"
         }
         client.put_object(**params)
@@ -105,7 +100,7 @@ class Plotter:
             ClientMethod="get_object",
             Params={
                 "Bucket": "compound-interest-calculator",
-                "Key": filename
+                "Key"   : filename
             },
             ExpiresIn=S3_URL_LIFESPAN
         )

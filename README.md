@@ -82,23 +82,23 @@ configfile: pytest.ini
 plugins: anyio-4.8.0, cov-6.0.0
 collected 24 items
 
-test_main.py ........................                                              [100%]
+app\test_main.py ........................                                          [100%]
 
 ---------- coverage: platform win32, python 3.12.7-final-0 -----------
-Name           Stmts   Miss  Cover   Missing
---------------------------------------------
-__init__.py        0      0   100%
-handlers.py       32      1    97%   63
-main.py           68      0   100%
-settings.py       12      0   100%
-test_main.py     151      0   100%
-tools.py          50      1    98%   53
---------------------------------------------
-TOTAL            313      2    99%
+Name               Stmts   Miss  Cover   Missing
+------------------------------------------------
+app\__init__.py        0      0   100%
+app\handlers.py       32      1    97%   61
+app\main.py           68      0   100%
+app\settings.py       12      0   100%
+app\test_main.py     151      0   100%
+app\tools.py          50      1    98%   50
+------------------------------------------------
+TOTAL                313      2    99%
 Coverage HTML written to dir htmlcov
 
 
-================================== 24 passed in 14.00s ==================================
+================================== 24 passed in 13.62s ==================================
 ```
 
 Перечень юнит-тестов из `test_main.py`:

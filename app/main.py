@@ -69,10 +69,10 @@ def custom_openapi():
         nok_content = nok["content"]["application/json"]
         nok_content["example"] = {
             "errors": {
-                "date":    "Input should be a valid string",
+                "date"   : "Input should be a valid string",
                 "periods": "Input should be a valid integer",
-                "amount":  "Input should be a valid integer",
-                "rate":    "Input should be a valid number"
+                "amount" : "Input should be a valid integer",
+                "rate"   : "Input should be a valid number"
             }
         }
         nok_content["schema"] = {
@@ -106,7 +106,7 @@ async def validation_errors_handler(
     """
     Validation errors handler.
     Response contains errors summary matching pattern
-    {"field_name1": "description of the error1",... }.
+    {"field_name_1": "description of the error",... }.
     """
     errors_summary = {
         error["loc"][1]: error["msg"]
@@ -146,10 +146,10 @@ class CompoundInterestCalculator(BaseModel):
         "json_schema_extra": {
             "examples": [
                 {
-                    "date":    "31.01.2021",
+                    "date"   : "31.01.2021",
                     "periods": 12,
-                    "amount":  10_000,
-                    "rate":    6
+                    "amount" : 10_000,
+                    "rate"   : 6
                 }
             ]
         }

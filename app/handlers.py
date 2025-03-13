@@ -31,19 +31,17 @@ class AmountHandler(ABC):
     def __init__(
         self,
         *,
-        start_date: str | None = None,  # start of handler's validity period
-        end_date: str | None = None,    # end of handler's validity period
-        scale: float = 1.0              # amount multiplier/coefficient
+        start_date: str | None = None,    # start of handler's validity period
+        end_date: str | None = None,      # end of handler's validity period
+        scale: float = 1.0                # amount multiplier/coefficient
     ) -> None:
 
         # validity period with no meaningful boundaries means "always valid"
         self.start_date = (
-            DateTime.min if start_date is None
-            else DateTime.parse(start_date)
+            DateTime.min if start_date is None else DateTime.parse(start_date)
         )
         self.end_date = (
-            DateTime.max if end_date is None
-            else DateTime.parse(end_date)
+            DateTime.max if end_date is None else DateTime.parse(end_date)
         )
         self.scale = clamp(scale, low=SCALE_MIN, high=SCALE_MAX)
 

@@ -103,10 +103,10 @@ def test_task_example():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": 7,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -130,10 +130,10 @@ def test_invalid_day():
     response = client.post(
         url="/standard",
         json={
-            "date":    "32.01.2021",
+            "date"   : "32.01.2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -151,10 +151,10 @@ def test_non_existing_day():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.11.2021",
+            "date"   : "31.11.2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -172,10 +172,10 @@ def test_invalid_month():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.13.2021",
+            "date"   : "31.13.2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -193,10 +193,10 @@ def test_year_eq_min():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.0001",
+            "date"   : "31.01.0001",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -225,10 +225,10 @@ def test_year_lt_min():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.0000",
+            "date"   : "31.01.0000",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -246,10 +246,10 @@ def test_year_eq_max():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.9999",
+            "date"   : "31.01.9999",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -278,10 +278,10 @@ def test_year_gt_max():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.10000",
+            "date"   : "31.01.10000",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -299,10 +299,10 @@ def test_invalid_date_format():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31/01/2021",
+            "date"   : "31/01/2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -320,10 +320,10 @@ def test_leap_year():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2020",
+            "date"   : "31.01.2020",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -352,10 +352,10 @@ def test_day_month_no_zeros():
     response = client.post(
         url="/standard",
         json={
-            "date":    "1.1.2021",
+            "date"   : "1.1.2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     expected = {
@@ -384,10 +384,10 @@ def test_int_coercible_float():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": 12.0,
-            "amount":  10000.0,
-            "rate":    6
+            "amount" : 10000.0,
+            "rate"   : 6
         }
     )
     expected = {
@@ -416,15 +416,15 @@ def test_non_coercible_float():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": 12.1,
-            "amount":  10000.1,
-            "rate":    6
+            "amount" : 10000.1,
+            "rate"   : 6
         }
     )
     expected = {
         "periods": "Input should be a valid integer, got a number with a fractional part",
-        "amount":  "Input should be a valid integer, got a number with a fractional part"
+        "amount" : "Input should be a valid integer, got a number with a fractional part"
     }
     return response, expected
 
@@ -438,10 +438,10 @@ def test_int_coercible_string():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": "12.0",
-            "amount":  "10000.0",
-            "rate":    6
+            "amount" : "10000.0",
+            "rate"   : 6
         }
     )
     expected = {
@@ -470,10 +470,10 @@ def test_treat_true_as_1():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": True,
-            "amount":  10_000,
-            "rate":    True
+            "amount" : 10_000,
+            "rate"   : True
         }
     )
     expected = {
@@ -491,10 +491,10 @@ def test_treat_false_as_0():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    False
+            "amount" : 10_000,
+            "rate"   : False
         }
     )
     expected = {
@@ -512,17 +512,17 @@ def test_all_invalid():
     response = client.post(
         url="/standard",
         json={
-            "date":    None,
+            "date"   : None,
             "periods": None,
-            "amount":  None,
-            "rate":    None
+            "amount" : None,
+            "rate"   : None
         }
     )
     expected = {
-        "date":    "Input should be a valid string",
+        "date"   : "Input should be a valid string",
         "periods": "Input should be a valid integer",
-        "amount":  "Input should be a valid integer",
-        "rate":    "Input should be a valid number"
+        "amount" : "Input should be a valid integer",
+        "rate"   : "Input should be a valid number"
     }
     return response, expected
 
@@ -536,10 +536,10 @@ def test_periods_amount_rate_eq_min():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": M["periods"].ge,
-            "amount":  M["amount"].ge,
-            "rate":    M["rate"].ge
+            "amount" : M["amount"].ge,
+            "rate"   : M["rate"].ge
         }
     )
     expected = {
@@ -557,16 +557,16 @@ def test_periods_amount_rate_lt_min():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": M["periods"].ge - 1,
-            "amount":  M["amount"].ge  - 1,
-            "rate":    M["rate"].ge    - 0.1
+            "amount" : M["amount"].ge  - 1,
+            "rate"   : M["rate"].ge    - 0.1
         }
     )
     expected = {
         "periods": f"Input should be greater than or equal to {M["periods"].ge}",
-        "amount":  f"Input should be greater than or equal to {M["amount"].ge}",
-        "rate":    f"Input should be greater than or equal to {M["rate"].ge}"
+        "amount" : f"Input should be greater than or equal to {M["amount"].ge}",
+        "rate"   : f"Input should be greater than or equal to {M["rate"].ge}"
     }
     return response, expected
 
@@ -580,10 +580,10 @@ def test_periods_amount_rate_eq_max():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": M["periods"].le,
-            "amount":  M["amount"].le,
-            "rate":    M["rate"].le
+            "amount" : M["amount"].le,
+            "rate"   : M["rate"].le
         }
     )
     expected = {
@@ -660,16 +660,16 @@ def test_periods_amount_rate_gt_max():
     response = client.post(
         url="/standard",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": M["periods"].le + 1,
-            "amount":  M["amount"].le  + 1,
-            "rate":    M["rate"].le    + 0.1
+            "amount" : M["amount"].le  + 1,
+            "rate"   : M["rate"].le    + 0.1
         }
     )
     expected = {
         "periods": f"Input should be less than or equal to {M["periods"].le}",
-        "amount":  f"Input should be less than or equal to {M["amount"].le}",
-        "rate":    f"Input should be less than or equal to {M["rate"].le}"
+        "amount" : f"Input should be less than or equal to {M["amount"].le}",
+        "rate"   : f"Input should be less than or equal to {M["rate"].le}"
     }
     return response, expected
 
@@ -683,10 +683,10 @@ def test_special_endpoint():
     response = client.post(
         url="/special",
         json={
-            "date":    "31.01.2021",
+            "date"   : "31.01.2021",
             "periods": 12,
-            "amount":  10_000,
-            "rate":    6
+            "amount" : 10_000,
+            "rate"   : 6
         }
     )
     # Special endpoint:
@@ -713,18 +713,14 @@ def test_special_endpoint():
 
 
 def test_redirect_to_docs():
-    """
-    Test redirect from root to FastAPI Swagger docs.
-    """
+    """Test redirect from root to FastAPI Swagger docs. """
     response = client.get("/")
     assert response.status_code == STATUS_OK
     assert str(response.url).endswith("/docs")
 
 
 def test_custom_openapi():
-    """
-    Test `custom_openapi` works as expected.
-    """
+    """Test `custom_openapi` works as expected. """
     # check if the app.openapi method is customized
     assert app.openapi == custom_openapi
 
