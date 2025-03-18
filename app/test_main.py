@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import Callable
+from collections.abc import Callable
 
 import requests
 from decouple import config

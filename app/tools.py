@@ -3,7 +3,6 @@ import warnings
 import uuid
 
 import boto3
-import matplotlib
 import matplotlib.pyplot as plt
 import mplcyberpunk
 from decouple import config
@@ -17,10 +16,9 @@ from .settings import (
 # select Anti-Grain Geometry backend to prevent "UserWarning:
 # Starting a Matplotlib GUI outside of the main thread will likely fail."
 # https://matplotlib.org/stable/users/explain/figure/backends.html#backends
-matplotlib.use("agg")
-
 plt.rcParams.update(MPL_RUNTIME_CONFIG)
 plt.style.use("cyberpunk")
+plt.switch_backend("agg")
 
 
 bucket_name = config("S3_BUCKET_NAME")
