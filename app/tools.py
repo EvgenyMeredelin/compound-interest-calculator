@@ -88,7 +88,7 @@ class Plotter:
         """Upload chart to S3 and return a limited time download link. """
         filename = str(uuid.uuid4()) + ".png"
         params = {
-            "Bucket"     : "compound-interest-calculator",
+            "Bucket"     : bucket_name,
             "Key"        : filename,
             "Body"       : self.body,
             "ContentType": "image/png"
@@ -97,7 +97,7 @@ class Plotter:
         url = client.generate_presigned_url(
             ClientMethod="get_object",
             Params={
-                "Bucket": "compound-interest-calculator",
+                "Bucket": bucket_name,
                 "Key"   : filename
             },
             ExpiresIn=S3_URL_LIFESPAN

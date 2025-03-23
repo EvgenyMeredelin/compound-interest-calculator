@@ -1,0 +1,16 @@
+[project]
+name = "compound-interest-calculator"
+version = "0.1.0"
+description = "Compound interest calculator with monthly schedule, https://compound-interest-calculator.containerapps.ru/"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.37.18",
+    "fastapi[standard]>=0.115.11",
+    "matplotlib>=3.10.1",
+    "mplcyberpunk>=0.7.6",
+    "pytest-cov>=6.0.0",
+    "python-dateutil>=2.9.0.post0",
+    "python-decouple>=3.8",
+    "requests>=2.32.3",
+]

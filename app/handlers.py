@@ -31,9 +31,9 @@ class AmountHandler(ABC):
     def __init__(
         self,
         *,
-        start_date: str | None = None,    # start of handler's validity period
-        end_date: str | None = None,      # end of handler's validity period
-        scale: float = 1.0                # amount multiplier/coefficient
+        start_date: str | None = None,  # start of handler's validity period
+        end_date  : str | None = None,  # end of handler's validity period
+        scale     : float = 1.0         # amount multiplier/coefficient
     ) -> None:
 
         # validity period with no meaningful boundaries means "always valid"

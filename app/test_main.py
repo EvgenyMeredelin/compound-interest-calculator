@@ -734,4 +734,4 @@ def test_custom_openapi():
     app.openapi()
     # custom_openapi's first return statement
     # returns previously produced schema,
-    # so the statement is now covered by the test
+    # so the statement is now fully covered

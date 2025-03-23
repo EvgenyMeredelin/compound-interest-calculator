@@ -21,6 +21,8 @@
 ***
 ### <a id='toc1_1_1_'></a>[__Главное__](#toc0_)
 
+(Задание см. [__здесь__](assets/task))
+
 Добрый день, коллеги, и спасибо за ваше уделенное время!
 
 Я подошел к тестовому заданию творчески и несколько разнообразил его:
@@ -76,15 +78,15 @@ Floor-стратегия обработки центов реализована 
 ```
 $ pytest --cov-report term-missing --cov-report html:htmlcov --cov=.
 ================================== test session starts ==================================
-platform win32 -- Python 3.12.7, pytest-8.3.5, pluggy-1.5.0
+platform win32 -- Python 3.13.2, pytest-8.3.5, pluggy-1.5.0
 rootdir: D:\git\compound-interest-calculator
 configfile: pytest.ini
-plugins: anyio-4.8.0, cov-6.0.0
+plugins: anyio-4.9.0, cov-6.0.0
 collected 24 items
 
 test_main.py ........................                                              [100%]
 
----------- coverage: platform win32, python 3.12.7-final-0 -----------
+---------- coverage: platform win32, python 3.13.2-final-0 -----------
 Name           Stmts   Miss  Cover   Missing
 --------------------------------------------
 __init__.py        0      0   100%
@@ -98,7 +100,7 @@ TOTAL            312      2    99%
 Coverage HTML written to dir htmlcov
 
 
-================================== 24 passed in 15.47s ==================================
+================================== 24 passed in 12.84s ==================================
 ```
 
 Перечень юнит-тестов из `test_main.py`:

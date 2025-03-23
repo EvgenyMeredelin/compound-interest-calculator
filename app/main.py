@@ -34,7 +34,7 @@ def custom_openapi():
         version="0.1.0",
         routes=app.routes,
         contact={
-            "name": "Evgeny Meredelin",
+            "name" : "Evgeny Meredelin",
             "email": "eimeredelin@sberbank.ru"
         }
     )
